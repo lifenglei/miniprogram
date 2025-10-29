@@ -1,0 +1,75 @@
+<view class="container">
+  <view class="form-group">
+    <view class="form-item">
+      <view class="label">
+        <text>问题标题</text>
+        <text class="required">*</text>
+      </view>
+      <textarea 
+        class="title-input" 
+        placeholder="请输入问题标题" 
+        placeholder-class="input-placeholder"
+        value="{{title}}"
+        bindinput="onTitleInput"
+        maxlength="200"
+        auto-height
+      />
+      <view class="error-tip" wx:if="{{errors.title}}">
+        <text class="icon cuIcon-warn"></text>
+        <text>{{errors.title}}</text>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="label">
+        <text>问题答案</text>
+        <text class="required">*</text>
+      </view>
+      <textarea 
+        class="answer-input" 
+        placeholder="请输入问题答案" 
+        placeholder-class="input-placeholder"
+        value="{{answer}}"
+        bindinput="onAnswerInput"
+        maxlength="5000"
+        auto-height
+      />
+      <view class="error-tip" wx:if="{{errors.answer}}">
+        <text class="icon cuIcon-warn"></text>
+        <text>{{errors.answer}}</text>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="label">
+        <text>选择分类</text>
+        <text class="required">*</text>
+      </view>
+      <view class="category-list">
+        <view 
+          class="category-item {{selectedCategory === item.id ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="onCategorySelect"
+          data-id="{{item.id}}"
+        >
+          <text class="icon {{item.icon}}"></text>
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+      <view class="error-tip" wx:if="{{errors.category}}">
+        <text class="icon cuIcon-warn"></text>
+        <text>{{errors.category}}</text>
+      </view>
+    </view>
+  </view>
+
+  <button 
+    class="btn-submit {{submitting ? 'loading' : ''}}" 
+    bindtap="onSubmit"
+    disabled="{{submitting}}"
+  >
+    <text class="icon cuIcon-loading" wx:if="{{submitting}}"></text>
+    <text>{{submitting ? '发布中...' : '发布问题'}}</text>
+  </button>
+</view> 

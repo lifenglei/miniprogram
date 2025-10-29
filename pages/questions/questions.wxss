@@ -1,0 +1,5 @@
+@import "../index/index.wxss";
+
+/* 可按需覆盖列表页的特殊样式 */
+.container { padding-top: 0; }
+/* pages/questions/questions.wxss */

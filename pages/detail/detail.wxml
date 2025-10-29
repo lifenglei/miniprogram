@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="card question-detail">
+    <view class="question-header">
+      <view class="title">{{question.question}}</view>
+      <view class="meta">
+        <view class="tag {{selectedCategory === question.category ? 'tag-selected' : ''}}" bindtap="onCategoryTap">
+          <text class="icon icon-tag"></text>
+          {{question.category}}
+        </view>
+        <view class="time">
+          <text class="icon icon-time"></text>
+          {{question.createTime}}
+        </view>
+        <view class="views" wx:if="{{question.viewCount}}">浏览 {{question.viewCount}}</view>
+      </view>
+    </view>
+
+    <view class="content">{{question.content}}</view>
+
+
+    <view class="answer-section">
+      <view class="answer-header" bindtap="toggleAnswer">
+        <text class="answer-title">专家指点</text>
+        <text class="icon {{showAnswer ? 'icon-up' : 'icon-down'}}"></text>
+      </view>
+      <view class="answer-content" wx:if="{{showAnswer}}">
+        <view id="answerInner" class="answer-content-inner {{isAnswerCollapsed ? 'collapsed' : ''}}">
+        <!-- 结构化渲染 -->
+        <block wx:if="{{answerParsed && answerParsed.length}}">
+          <view class="answer-group" wx:for="{{answerParsed}}" wx:key="section">
+            <view class="group-title">{{item.section}}</view>
+            <view class="group-items">
+              <view class="answer-item" wx:for="{{item.items}}" wx:key="index">
+                <text class="badge" wx:if="{{item.label}}">{{item.label}}</text>
+                  <text class="item-text">{{item.text}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+        <!-- 回退为纯文本 -->
+        <block wx:else>
+          <text>{{answerText || question.answer}}</text>
+        </block>
+        </view>
+        <!-- 渐隐遮罩 -->
+        <view class="fade-mask" wx:if="{{answerShouldCollapse && isAnswerCollapsed}}"></view>
+        <!-- 展开/收起控制 -->
+        <view class="collapse-toggle" wx:if="{{answerShouldCollapse}}" bindtap="toggleAnswerCollapse">
+          <text>{{isAnswerCollapsed ? '展开更多' : '收起'}}</text>
+          <text class="icon {{isAnswerCollapsed ? 'icon-down' : 'icon-up'}}"></text>
+        </view>
+      </view>
+    </view>
+
+    <view class="actions">
+      <view class="action-item" bindtap="toggleFavorite">
+        <iconfont name="Develop_Spark_Outline" color="{{isFavorite ? '#e53e3e' : '#718096'}}" />
+        <text>{{isFavorite ? '已收藏' : '收藏'}}</text>
+      </view>
+      <button class="action-item share-button" open-type="share" bindtap="handleShare">
+        <iconfont name="System_Share_Fill"  />
+        <text>分享</text>
+      </button>
+    </view>
+  </view>
+
+
+  <view class="loading" wx:if="{{loading}}">
+    <text class="icon icon-loading"></text>
+    <text>加载中...</text>
+  </view>
+</view> 

@@ -1,0 +1,71 @@
+<view class="container">
+  <!-- 用户信息区域 -->
+  <view class="header">
+    <view class="user-info">
+      <button wx:if="{{userInfo && userInfo.openid}}" class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+        <text class="edit-hint">点击修改头像</text>
+      </button>
+      <image wx:else class="avatar" src="/images/default-avatar.png"></image>
+      <view class="info">
+        <input wx:if="{{userInfo && userInfo.openid}}" type="nickname" class="nickname" placeholder="请输入昵称" value="{{userInfo.nickName}}" bind:change="onInputNickname"/>
+        <text wx:else class="nickname">未登录</text>
+        <text wx:if="{{userInfo && userInfo.openid}}" class="subtitle">点击头像和昵称可以修改</text>
+        <text wx:else class="subtitle">登录后可同步收藏与历史记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 用户统计区域 -->
+  <view wx:if="{{userInfo && userInfo.openid}}" class="stats">
+     <view class="stat-item">
+      <text class="count">{{historyCount || 0}}</text>
+      <text class="label">历史</text>
+    </view>
+    <view class="stat-item">
+      <text class="count">{{favoriteCount || 0}}</text>
+      <text class="label">收藏</text>
+    </view>
+ 
+  </view>
+
+  <!-- Tab切换区域 -->
+  <view wx:if="{{userInfo && userInfo.openid}}" class="tab-container">
+    <view class="tab-header">
+      <view class="tab-item {{activeTab === 'history' ? 'active' : ''}}" 
+            data-tab="history" 
+            bindtap="switchTab">历史记录</view>
+      <view class="tab-item {{activeTab === 'favorites' ? 'active' : ''}}" 
+            data-tab="favorites" 
+            bindtap="switchTab">收藏</view>
+    </view>
+    
+    <!-- Tab内容区域 -->
+    <view class="tab-content">
+      <block wx:if="{{activeTab === 'history'}}">
+        <view wx:if="{{histories.length === 0}}" class="empty-tip">暂无历史记录</view>
+        <view wx:for="{{histories}}" wx:key="questionId" class="list-item" bindtap="goToDetail" data-id="{{item.questionId}}">
+          <view class="item-title">{{item.title || '未知题目'}}</view>
+          <view class="item-time">{{item.createTime}}</view>
+        </view>
+      </block>
+      
+      <block wx:if="{{activeTab === 'favorites'}}">
+        <view wx:if="{{favorites.length === 0}}" class="empty-tip">暂无收藏</view>
+        <view wx:for="{{favorites}}" wx:key="questionId" class="list-item" bindtap="goToDetail" data-id="{{item.questionId}}">
+          <view class="item-title">{{item.title || '未知题目'}}</view>
+          <view class="item-time">{{item.createTime}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view class="bottom-actions">
+    <button wx:if="{{!(userInfo && userInfo.openid)}}" class="btn-primary" bindtap="onGetUserInfo">登录</button>
+    <button wx:if="{{userInfo && userInfo.openid}}" class="btn-primary" bindtap="logout">退出登录</button>
+  </view>
+
+  <!-- 加载提示 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view> 

@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="banner-wrap">
+    <swiper class="banner-swiper" autoplay circular interval="4000" duration="500" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
+      <swiper-item wx:for="{{bannerUrls}}" wx:key="*this">
+        <image class="banner-img" src="{{item}}" mode="aspectFill" lazy-load="true" />
+      </swiper-item>
+    </swiper>
+  </view>
+  
+  <view class="category-list">
+    <view class="category-grid">
+      <view
+        class="category-card {{selectedCategory === item.id ? 'active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="id"
+        bindtap="selectCategory"
+        data-category="{{item.id}}"
+      >
+        <image class="icon-img" src="{{item.url}}" mode="aspectFit" lazy-load="true" />
+        <text class="name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 首页仅展示分类宫格，点击分类进入列表页 -->
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "喜刷刷",
+  "usingComponents": {
+    "cloudbase-badge": "/components/cloudbase-badge/index"
+  }
+}
