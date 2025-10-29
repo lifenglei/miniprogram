@@ -18,6 +18,16 @@ Page({
     this.loadCategories()
   },
 
+  onShow() {
+    // 页面显示时检查数据是否加载成功，如果失败则重试
+    if (this.data.categories.length === 0) {
+      this.loadCategories()
+    }
+    if (this.data.bannerUrls.length === 0) {
+      this.loadBanners()
+    }
+  },
+
   async loadBanners(){
     try{
       const db = wx.cloud.database()
@@ -54,17 +64,35 @@ Page({
       }
       console.log(res)
 
-      const categories = (res.data[0].categories || []).map(doc => ({
+      // 检查数据是否存在
+      if (!res || !res.data || res.data.length === 0) {
+        console.warn('分类数据为空')
+        this.setData({ categories: [] })
+        return
+      }
+
+      // 检查数据结构
+      const categoryDoc = res.data[0]
+      if (!categoryDoc || !Array.isArray(categoryDoc.categories)) {
+        console.warn('分类数据结构不正确')
+        this.setData({ categories: [] })
+        return
+      }
+
+      const categories = categoryDoc.categories.map(doc => ({
         id: doc.id,
         name: doc.name,
         url: doc.url
-      }))
+      })).filter(item => item.id && item.name) // 过滤掉无效数据
 
       this.setData({ categories })
     }catch(err){
       console.error('加载分类失败：', err)
       this.setData({ categories: [] })
-      wx.showToast({ title: '分类加载失败', icon: 'none' })
+      // 只在开发环境或错误明显时显示提示，避免用户看到过多错误提示
+      if (err.message && err.message.includes('permission')) {
+        wx.showToast({ title: '分类加载失败', icon: 'none' })
+      }
     }
   },
 
