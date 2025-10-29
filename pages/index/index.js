@@ -140,6 +140,14 @@ Page({
     }
   },
 
+  // 分享到朋友圈
+  onShareTimeline(res) {
+    return {
+      title: '喜刷刷 - 面试题库，助你轻松通过面试！',
+      imageUrl: ''
+    }
+  },
+
   onReachBottom() {},
 
   resetAndLoad() {},
