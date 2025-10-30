@@ -6,7 +6,8 @@
     "pages/profile/profile",
     "pages/questions/questions",
     "pages/webview/webview",
-    "pages/tutoring/tutoring"
+    "pages/tutoring/tutoring",
+    "pages/reals/reals"
   ],
   "window": {
     "backgroundColor": "#764ba2",
@@ -26,6 +27,12 @@
         "iconPath": "images/home.png",
         "selectedIconPath": "images/home-active.png",
         "text": "题库"
+      },
+      {
+        "pagePath": "pages/reals/reals",
+        "iconPath": "images/reals.png",
+        "selectedIconPath": "images/reals-active.png",
+        "text": "大厂真题"
       },
       {
         "pagePath": "pages/tutoring/tutoring",
