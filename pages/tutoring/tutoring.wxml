@@ -1,0 +1,145 @@
+<view class="container-bg">
+  <!-- Tab切换头部 -->
+  <view class="tab-header">
+    <view 
+      class="tab-item {{activeTab === 'package' ? 'active' : ''}}"
+      data-tab="package"
+      bindtap="switchTab"
+    >
+      套餐内容
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'process' ? 'active' : ''}}"
+      data-tab="process"
+      bindtap="switchTab"
+    >
+      服务流程
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'about' ? 'active' : ''}}"
+      data-tab="about"
+      bindtap="switchTab"
+    >
+      关于我
+    </view>
+  </view>
+
+  <!-- Tab内容区域 -->
+  <view class="tab-content">
+    <!-- 套餐内容 -->
+    <view wx:if="{{activeTab === 'package'}}" class="tab-panel">
+      <image 
+        class="content-image"
+        src="{{packageImage}}"
+        mode="widthFix"
+        lazy-load="true"
+        binderror="onImageError"
+        bindtap="previewImage"
+        data-src="{{packageImage}}"
+      />
+    </view>
+
+    <!-- 服务流程 -->
+    <view wx:if="{{activeTab === 'process'}}" class="tab-panel">
+      <image 
+        class="content-image"
+        src="{{processImage}}"
+        mode="widthFix"
+        lazy-load="true"
+        binderror="onImageError"
+        bindtap="previewImage"
+        data-src="{{processImage}}"
+      />
+    </view>
+
+    <!-- 关于我 -->
+    <view wx:if="{{activeTab === 'about'}}" class="tab-panel about-panel">
+      <view class="about-content">
+        
+
+        <view class="highlights-section">
+          <text class="highlights-title">核心优势</text>
+          <view class="highlights-list">
+            <view 
+              class="highlight-item"
+              wx:for="{{aboutMe.highlights}}"
+              wx:key="*this"
+            >
+              <view class="highlight-icon">✓</view>
+              <text class="highlight-text">{{item}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="companies-section">
+          <text class="companies-title">曾就职公司</text>
+          <view class="companies-list">
+            <view 
+              class="company-item"
+              wx:for="{{aboutMe.companies}}"
+              wx:key="name"
+            >
+              <image 
+                class="company-logo"
+                src="{{item.logo}}"
+                mode="aspectFit"
+                lazy-load="true"
+                binderror="onImageError"
+                bindtap="previewImage"
+                data-src="{{item.logo}}"
+              />
+              <text class="company-name">{{item.name}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="qr-section">
+          <text class="qr-title">扫码添加私人微信</text>
+          <view class="qr-container">
+            <image 
+              class="qr-code"
+              src="{{aboutMe.qrCode}}"
+              mode="aspectFit"
+              lazy-load="true"
+              binderror="onImageError"
+              bindtap="previewImage"
+              data-src="{{aboutMe.qrCode}}"
+            />
+          </view>
+        </view>
+
+        <!-- <view class="contact-section">
+          <view class="contact-item">
+            <view class="contact-icon">💬</view>
+            <view class="contact-info">
+              <text class="contact-label">私人微信号</text>
+              <text class="contact-value">{{aboutMe.wechat}}</text>
+            </view>
+            <button 
+              class="copy-btn"
+              data-text="{{aboutMe.wechat}}"
+              bindtap="copyWechat"
+            >
+              复制
+            </button>
+          </view>
+        </view> -->
+
+        <view class="stats-section">
+          <view class="stat-item">
+            <text class="stat-number">9+</text>
+            <text class="stat-label">年开发经验</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-number">400+</text>
+            <text class="stat-label">成功辅导学员</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-number">3</text>
+            <text class="stat-label">头部互联网公司</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

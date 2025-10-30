@@ -89,10 +89,23 @@ Page({
     }catch(err){
       console.error('加载分类失败：', err)
       this.setData({ categories: [] })
-      // 只在开发环境或错误明显时显示提示，避免用户看到过多错误提示
-      if (err.message && err.message.includes('permission')) {
-        wx.showToast({ title: '分类加载失败', icon: 'none' })
+      
+      // 处理权限错误（未认证用户），静默失败，不显示错误提示
+      const errCode = err.errCode || err.code
+      const errMsg = err.errMsg || err.message || ''
+      
+      // -501023 是云开发未认证访问被拒绝的错误码
+      if (errCode === -501023 || 
+          errMsg.includes('permission denied') || 
+          errMsg.includes('Unauthenticated access') ||
+          errMsg.includes('权限')) {
+        console.warn('未登录用户无法访问数据库，分类加载静默失败')
+        // 不显示错误提示，避免打扰用户
+        return
       }
+      
+      // 其他错误也不显示提示，保持静默
+      console.warn('分类加载失败，但不影响其他功能使用')
     }
   },
 

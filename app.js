@@ -1,6 +1,9 @@
 // app.js
 App({
   onLaunch: async function() {
+    // 检查小程序版本更新
+    this.checkForUpdate();
+
     // 初始化云开发
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力');
@@ -43,6 +46,55 @@ App({
       userInfo: null,
       env: 'cloudbase-9gquqbuz52cc02cb'
     };
+  },
+
+  // 检查小程序版本更新
+  checkForUpdate() {
+    // 基础库 1.9.90 及以上支持
+    if (wx.canIUse('getUpdateManager')) {
+      const updateManager = wx.getUpdateManager();
+
+      // 检查是否有新版本
+      updateManager.onCheckForUpdate(function (res) {
+        if (res.hasUpdate) {
+          console.log('检测到新版本，正在下载...');
+        }
+      });
+
+      // 新版本下载完成
+      updateManager.onUpdateReady(function () {
+        wx.showModal({
+          title: '更新提示',
+          content: '新版本已经准备好，是否重启应用？',
+          showCancel: true,
+          cancelText: '稍后',
+          confirmText: '立即重启',
+          success: function (res) {
+            if (res.confirm) {
+              // 应用新版本
+              updateManager.applyUpdate();
+            }
+          }
+        });
+      });
+
+      // 新版本下载失败
+      updateManager.onUpdateFailed(function () {
+        wx.showModal({
+          title: '更新失败',
+          content: '新版本下载失败，请删除小程序重新打开，或稍后再试',
+          showCancel: false,
+          confirmText: '知道了'
+        });
+      });
+    } else {
+      // 基础库版本过低，使用兼容方案
+      wx.showModal({
+        title: '提示',
+        content: '当前微信版本过低，无法使用更新功能，请升级到最新微信版本后重新打开小程序',
+        showCancel: false
+      });
+    }
   },
   
   globalData: {

@@ -5,7 +5,8 @@
     "pages/publish/publish",
     "pages/profile/profile",
     "pages/questions/questions",
-    "pages/webview/webview"
+    "pages/webview/webview",
+    "pages/tutoring/tutoring"
   ],
   "window": {
     "backgroundColor": "#764ba2",
@@ -25,6 +26,12 @@
         "iconPath": "images/home.png",
         "selectedIconPath": "images/home-active.png",
         "text": "题库"
+      },
+      {
+        "pagePath": "pages/tutoring/tutoring",
+        "iconPath": "images/tutoring.png",
+        "selectedIconPath": "images/tutoring-active.png",
+        "text": "辅导服务"
       },
       {
         "pagePath": "pages/profile/profile",
